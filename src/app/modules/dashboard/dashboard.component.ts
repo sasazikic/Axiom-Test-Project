@@ -8,24 +8,32 @@ import { DashboardService } from '../../services/dashboard.service';
 })
 export class DashboardComponent implements OnInit{
   tableData: any = [];
+  cities = ['New York', 'London', 'Paris', 'Tokyo', 'Berlin', 'Sydney', 'Dubai', 'Moscow', 'Singapore', 'Los Angeles']
 
   constructor(private dashboardService: DashboardService) {
 
   }
 
   ngOnInit(): void {
-    let city = 'London';
-    this.dashboardService.fetchData(city).subscribe({
+    const payload = {
+      locations: this.cities.map(city => ({ q: city }))
+    };
+
+    this.dashboardService.fetchData(payload).subscribe({
       next: (data: any) => {
-        console.log(data);
-        this.tableData.push(data)
-        this.tableData.push(data)
+        console.log(data)
+        this.tableData.push(data.bulk)
+        console.log(this.tableData)
 
       },
       error: (error: any) => {
         console.log(error)
       }
     })
+  }
+
+  onClick(event: Event, name: string) {
+    console.log(name)
   }
 
 

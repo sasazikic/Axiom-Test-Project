@@ -15,9 +15,10 @@ export class DashboardService {
   apiKey = environment.apiKey;
   baseUrl = environment.baseUrl;
 
-  fetchData(city: string): Observable<any> {
-    const url = `${this.baseUrl}/current.json?key=${this.apiKey}&q=${city}`;
+  fetchData(payload: any): Observable<any> {
+    const url = `${this.baseUrl}/current.json?key=${this.apiKey}&q=bulk`;
 
-    return this.http.get(url);
+
+    return this.http.post(url, payload)
   }
 }

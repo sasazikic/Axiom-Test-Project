@@ -7,19 +7,19 @@
         <th>Current Temperature</th>
         <th>Weather Condition</th>
       </tr>
-      <ng-container *ngFor="let item of tableData">
-        <tr>
-          <td data-th="Supplier Code">
-            {{item.location.name}}
+      <ng-container *ngFor="let item of tableData[0]">
+        <tr (click)="onClick($event, item.query.location.name)">
+          <td data-th="Name">
+            {{item.query.location.name}}
           </td>
-          <td data-th="Supplier Name">
-            {{item.current.humidity}}
+          <td data-th="Humidity">
+            {{item.query.current.humidity}}
           </td>
-          <td data-th="Invoice Number">
-            {{item.current.temp_c}}
+          <td data-th="Current Temperature">
+            {{item.query.current.temp_c}}c
           </td>
-          <td data-th="Invoice Date">
-            {{item.current.condition.text}}
+          <td data-th="Weather Conditions">
+            {{item.query.current.condition.text}}
           </td>
         </tr>
       </ng-container>
