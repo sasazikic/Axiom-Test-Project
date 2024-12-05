@@ -8,7 +8,7 @@
         <th>Weather Condition</th>
       </tr>
       <ng-container *ngFor="let item of tableData[0]">
-        <tr (click)="onClick($event, item.query.location.name)">
+        <tr (click)="onCityClick($event, item.query.location.name)">
           <td data-th="Name">
             {{item.query.location.name}}
           </td>
@@ -27,3 +27,13 @@
     </tbody>
   </table>
 </div>
+
+<span class="loader" *ngIf="isLoading"></span>
+<div class="chart-wrapper section" #chartContainer>
+  <app-chart  class="chart" *ngIf="!isLoading && !isChartEmpty && chartData.length"
+  [chartData]="chartData"
+  [chartLabels]="chartLabels"
+  >
+  </app-chart> <!-- WIP, could be optimised  -->
+</div>
+

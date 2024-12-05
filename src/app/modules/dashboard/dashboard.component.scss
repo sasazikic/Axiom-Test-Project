@@ -1,5 +1,7 @@
 :host {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 
@@ -104,51 +106,24 @@
   }
 }
 
-// body {
-// background: #4B79A1;
-// background: -webkit-linear-gradient(to left, #4B79A1 , #283E51);
-// background: linear-gradient(to left, #4B79A1 , #283E51);
-// }
-// h1 {
-//   text-align: center;
-//   font-size: 2.4em;
-//   color: #f2f2f2;
-// }
-// .container {
-//   display: block;
-//   text-align: center;
-// }
-// h3 {
-//   display: inline-block;
-//   position: relative;
-//   text-align: center;
-//   font-size: 1.5em;
-//   color: #cecece;
-// }
-// h3:before {
-//   content: "\25C0";
-//   position: absolute;
-//   left: -50px;
-//   -webkit-animation: leftRight 2s linear infinite;
-//   animation: leftRight 2s linear infinite;
-// }
-// h3:after {
-//   content: "\25b6";
-//   position: absolute;
-//   right: -50px;
-//   -webkit-animation: leftRight 2s linear infinite reverse;
-//   animation: leftRight 2s linear infinite reverse;
-// }
-// @-webkit-keyframes leftRight {
-//   0%    { -webkit-transform: translateX(0)}
-//   25%   { -webkit-transform: translateX(-10px)}
-//   75%   { -webkit-transform: translateX(10px)}
-//   100%  { -webkit-transform: translateX(0)}
-// }
-// @keyframes leftRight {
-//   0%    { transform: translateX(0)}
-//   25%   { transform: translateX(-10px)}
-//   75%   { transform: translateX(10px)}
-//   100%  { transform: translateX(0)}
-// }
+.loader {
+  margin: 0 auto;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #FFF;
+  border-bottom-color: #FF3D00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
 
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  }

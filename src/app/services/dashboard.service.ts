@@ -9,16 +9,22 @@ import { environment } from '../../environment/environment';
 export class DashboardService {
 
   constructor(private http: HttpClient) {
-    console.log(this.apiKey)
+
   }
 
   apiKey = environment.apiKey;
   baseUrl = environment.baseUrl;
 
-  fetchData(payload: any): Observable<any> {
+  fetchCities(payload: any): Observable<any> {
     const url = `${this.baseUrl}/current.json?key=${this.apiKey}&q=bulk`;
 
 
     return this.http.post(url, payload)
+  }
+
+  getCity(city: string): Observable<any> {
+    const url = `${this.baseUrl}/forecast.json?key=${this.apiKey}&q=${city}&days=5&aqi=no&alerts=no`;
+
+    return this.http.get(url)
   }
 }
