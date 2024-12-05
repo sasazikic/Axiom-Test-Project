@@ -1,1 +1,29 @@
-<p>dashboard works!</p>
+<div class="table-wrapper section">
+  <table class="table">
+    <tbody>
+      <tr>
+        <th>Name</th>
+        <th>Humidity</th>
+        <th>Current Temperature</th>
+        <th>Weather Condition</th>
+      </tr>
+      <ng-container *ngFor="let item of tableData">
+        <tr>
+          <td data-th="Supplier Code">
+            {{item.location.name}}
+          </td>
+          <td data-th="Supplier Name">
+            {{item.current.humidity}}
+          </td>
+          <td data-th="Invoice Number">
+            {{item.current.temp_c}}
+          </td>
+          <td data-th="Invoice Date">
+            {{item.current.condition.text}}
+          </td>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+</div>

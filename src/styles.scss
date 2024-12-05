@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+html {
+  font-size: 10px;
+
+  @media screen and (min-width: 1200px) {
+    font-size: 16px;
+  }
+
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(to left, #4B79A1, #283E51);
+  // background: #1e202b;
+
+  display: flex;
+}
+
+.section {
+  padding: 20px;
+}
