@@ -1,1 +1,40 @@
-<p>form works!</p>
+<div class="form-wrapper section">
+  <h3 class="form-title">Make your own weather app</h3>
+
+  <div class="input-field-wrap">
+    <label for="" class="input-field-label">Choose Cities</label>
+    <div class="input-wrap">
+      <input type="text" class="input-field" (input)="filterCities($event)" placeholder="Search cities..." (focus)="cityDropdownOpened = true">
+      <div class="autocomplete-wrap">
+        <span class="autocomplete-hidden">{{inputValue}}</span>
+        <span class="autocomplete-suggestion">{{autocompleteSuggestion}}</span>
+      </div>
+    </div>
+
+    <div class="select-option" (click)="openCityDropdown()">
+      Choose City
+      <div class="select-option-dropdown" *ngIf="cityDropdownOpened">
+        <ul class="dropdown-city-list">
+          <li *ngFor="let city of (listOfCitiesFiltered.length ? listOfCitiesFiltered : listOfCities)"
+          (click)="onCityClick(city.name)"
+          [class.disabled]="city.isDisabled"
+          >
+            {{ city.name }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="selected-cities">
+        <span *ngFor="let city of listOfSelectedCities">{{city}}</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+

@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit{
   isChartLoading = false;
   isTableLoading = true;
   tableData: any = [];
-  cities = ['New York', 'London', 'Paris', 'Tokyo', 'Berlin', 'Sydney', 'Dubai', 'Moscow', 'Singapore', 'Los Angeles']
+  cities = ['New York', 'London', 'Paris', 'Tokyyoo', 'Berlin', 'Sydney', 'Dubai', 'Moscow', 'Singapore', 'Los Angeles']
   chartData: any = [];
   chartLabels: any = [];
   widgetData: any = {};
@@ -67,12 +67,26 @@ export class DashboardComponent implements OnInit{
   }
 
   extractWidgetData(apiData: any) {
-    console.log(apiData)
-    const temperatures = apiData.bulk.map((item: any) => item.query.current.temp_c);
-    const humidities = apiData.bulk.map((item: any) => item.query.current.humidity);
+    // Work only with valid items (if some city doesn't return any value)
+    const validItems = apiData.bulk.filter((item: any) => item.query?.current);
+
+    const temperatures = validItems.map((item: any) => item.query.current.temp_c);
+    const humidities = validItems.map((item: any) => item.query.current.humidity);
+
+
+    // Case when none of the cities returned values
+    if (temperatures.length === 0 || humidities.length === 0) {
+      console.warn('No valid data available for temperatures or humidities.');
+      this.widgetData.maxTemp = "Invalid data";
+      this.widgetData.minTemp = "Invalid data";
+      this.widgetData.avgHumidity = "Invalid data";
+      return;
+    }
 
     this.widgetData.maxTemp = Math.max(...temperatures)
     this.widgetData.minTemp = Math.min(...temperatures)
-    this.widgetData.avgHumidity = humidities.reduce((sum: number, humidity: number) => sum + humidity, 0) / humidities.length;
+    const totalHumidity = humidities.reduce((sum: number, humidity: number) => sum + humidity, 0);
+    const avgHumidity = totalHumidity / humidities.length;
+    this.widgetData.avgHumidity = +avgHumidity.toFixed(1);
   }
 }
