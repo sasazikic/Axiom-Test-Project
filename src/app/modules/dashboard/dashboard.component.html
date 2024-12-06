@@ -1,4 +1,5 @@
 <div class="table-wrapper section">
+  <div class="loader-text table" *ngIf="isTableLoading"></div>
   <table class="table">
     <tbody>
       <tr>
@@ -28,12 +29,22 @@
   </table>
 </div>
 
-<span class="loader" *ngIf="isLoading"></span>
+
+
+<div class="widget-wrapper">
+  <div class="loader-text" *ngIf="isWidgetLoading; else widgetValues"></div>
+  <ng-template #widgetValues>
+    <span>Highest Temperature: {{widgetData.maxTemp}}</span>
+    <span>Lowest Temperature: {{widgetData.minTemp}}</span>
+    <span>Avg Humidity: {{widgetData.avgHumidity}}</span>
+  </ng-template>
+</div>
+
+<span class="loader" *ngIf="isChartLoading"></span>
 <div class="chart-wrapper section" #chartContainer>
-  <app-chart  class="chart" *ngIf="!isLoading && !isChartEmpty && chartData.length"
+  <app-chart  class="chart" *ngIf="!isChartLoading && chartData.length"
   [chartData]="chartData"
   [chartLabels]="chartLabels"
   >
   </app-chart> <!-- WIP, could be optimised  -->
 </div>
-

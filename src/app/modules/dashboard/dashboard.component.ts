@@ -8,12 +8,14 @@ import { DashboardService } from '../../services/dashboard.service';
 })
 export class DashboardComponent implements OnInit{
   @ViewChild('chartContainer') chartContainer!: ElementRef;
-  isLoading = false;
-  isChartEmpty = true;
+  isWidgetLoading = true;
+  isChartLoading = false;
+  isTableLoading = true;
   tableData: any = [];
   cities = ['New York', 'London', 'Paris', 'Tokyo', 'Berlin', 'Sydney', 'Dubai', 'Moscow', 'Singapore', 'Los Angeles']
   chartData: any = [];
   chartLabels: any = [];
+  widgetData: any = {};
 
   constructor(private dashboardService: DashboardService) {
 
@@ -26,7 +28,11 @@ export class DashboardComponent implements OnInit{
 
     this.dashboardService.fetchCities(payload).subscribe({
       next: (data: any) => {
+        this.isWidgetLoading = false;
+        this.isTableLoading = false
+        console.log(data)
         this.tableData.push(data.bulk)
+        this.extractWidgetData(data)
 
       },
       error: (error: any) => {
@@ -36,13 +42,11 @@ export class DashboardComponent implements OnInit{
   }
 
   onCityClick(event: Event, name: string) {
-    this.isChartEmpty = true;
-    this.isLoading = true;
+    this.isChartLoading = true;
 
     this.dashboardService.getCity(name).subscribe({
       next: (data: any) => {
-        this.isLoading = false;
-        this.isChartEmpty = false;
+        this.isChartLoading = false;
         this.chartData = [];
         data.forecast.forecastday.forEach((element: any) => {
           this.chartData.push(element.day.maxtemp_c)
@@ -60,5 +64,15 @@ export class DashboardComponent implements OnInit{
     if (this.chartContainer) {
       this.chartContainer.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  extractWidgetData(apiData: any) {
+    console.log(apiData)
+    const temperatures = apiData.bulk.map((item: any) => item.query.current.temp_c);
+    const humidities = apiData.bulk.map((item: any) => item.query.current.humidity);
+
+    this.widgetData.maxTemp = Math.max(...temperatures)
+    this.widgetData.minTemp = Math.min(...temperatures)
+    this.widgetData.avgHumidity = humidities.reduce((sum: number, humidity: number) => sum + humidity, 0) / humidities.length;
   }
 }
