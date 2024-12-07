@@ -37,7 +37,9 @@ with cities as query. Initial 10 cities are hardcoded. Initial metrics are also 
 
 - When all 3 steps are valid formGroup will become valid and user will be able to submit
 
-- Clicking on submit button will spawn a popup with all the selected data and once user confirms he will be redirected to dashboard page but with different setup since it will take a setup stored in formService. On confirmation data is being stored in formService. 
+- Clicking on submit button will spawn a popup with all the selected data and once user confirms he will be redirected to dashboard page but with different setup since it will take a setup stored in formService. On confirmation data is being stored in formService.
+
+- Note: Bulk request which I am using from weatherAPI will last for 14 days since that's free period.
 
 
 
