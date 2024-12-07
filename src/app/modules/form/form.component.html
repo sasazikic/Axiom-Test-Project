@@ -1,10 +1,15 @@
-<div class="form-wrapper section">
+<form class="form-wrapper section" [formGroup]="form">
   <h3 class="form-title">Make your own weather app</h3>
 
   <div class="input-field-wrap">
     <label for="" class="input-field-label">Choose Cities</label>
     <div class="input-wrap">
-      <input type="text" class="input-field" (input)="filterCities($event)" placeholder="Search cities..." (focus)="cityDropdownOpened = true">
+      <input type="text"
+        class="input-field"
+        (input)="filterCities($event)"
+        placeholder="Search cities..."
+        (focus)="cityDropdownOpened = true"
+        >
       <div class="autocomplete-wrap">
         <span class="autocomplete-hidden">{{inputValue}}</span>
         <span class="autocomplete-suggestion">{{autocompleteSuggestion}}</span>
@@ -15,7 +20,7 @@
       Choose City
       <div class="select-option-dropdown" *ngIf="cityDropdownOpened">
         <ul class="dropdown-city-list">
-          <li *ngFor="let city of (listOfCitiesFiltered.length ? listOfCitiesFiltered : listOfCities)"
+          <li class="select-option-item" *ngFor="let city of (listOfCitiesFiltered.length ? listOfCitiesFiltered : listOfCities)"
           (click)="onCityClick(city.name)"
           [class.disabled]="city.isDisabled"
           >
@@ -31,9 +36,94 @@
   </div>
 
 
+<!-- [ngClass]="{'invalid-group': form.get('cities')?.invalid && form.get('cities')?.touched,'disabled': form.get('cities')?.invalid}" -->
+  <div class="input-field-wrap metric-preference"
+  [class.disabled]="form.get('cities')?.invalid"
+  >
+    <h3 for="" class="input-field-label">Choose metric preference (Minimum one)</h3>
 
 
+      <label for="temperature" class="input-field-label">Temperature</label>
+      <input type="checkbox" id="temperature" (change)="onMetricCheckboxChange($event)">
 
+
+      <label for="humidity" class="input-field-label">Humidity</label>
+      <input type="checkbox" id="humidity" (change)="onMetricCheckboxChange($event)">
+
+
+      <label for="wind-speed" class="input-field-label">Wind speed</label>
+      <input type="checkbox" id="wind-speed" (change)="onMetricCheckboxChange($event)">
+  </div>
+
+  <!-- <div class="input-field-wrap layout-options" [class.disabled]="form.get('metriPreferences')?.invalid">
+    <h3 for="" class="input-field-label">Choose Display Options</h3>
+
+    <span>Layout options:</span>
+
+    <label for="layout-option-table">Table</label>
+    <input type="radio" name="layoutOption" id="layout-option-table" formControlName="layoutOption" (change)="onRadioButtonClick($event)">
+
+    <label for="layout-option-card">Card</label>
+    <input type="radio" name="layoutOption" id="layout-option-card" formControlName="layoutOption" (change)="onRadioButtonClick($event)">
+
+    <span>Chart options:</span>
+
+    <label for="chart-option-line">Line</label>
+    <input type="radio" name="chartOption" id="chart-option-line" formControlName="chartOption" (change)="onRadioButtonClick($event)">
+
+    <label for="chart-option-bar">Bar</label>
+    <input type="radio" name="chartOption" id="chart-option-bar" formControlName="chartOption" (change)="onRadioButtonClick($event)">
+
+  </div> -->
+
+  <div class="input-field-wrap layout-options" [class.disabled]="form.get('metricPreferences')?.invalid">
+    <h3 for="" class="input-field-label">Choose Display Options</h3>
+
+    <span>Layout options:</span>
+    <label for="layout-option-table">
+      <input type="radio" id="layout-option-table" name="layoutOption" formControlName="layoutOption" value="Table"/>
+      Table
+    </label>
+
+    <label for="layout-option-card">
+      <input type="radio" id="layout-option-card" name="layoutOption" formControlName="layoutOption" value="Card"/>
+      Card
+    </label>
+
+    <span>Chart options:</span>
+    <label for="chart-option-line">
+      <input type="radio" id="chart-option-line" name="chartOption" formControlName="chartOption" value="Line"/>
+      Line
+    </label>
+
+    <label for="chart-option-bar">
+      <input type="radio" id="chart-option-bar" name="chartOption" formControlName="chartOption" value="Bar"/>
+      Bar
+    </label>
+  </div>
+
+
+  <div class="submit-button" [ngClass]="{ 'disabled': form.invalid }" (click)="openSubmitPopup()">
+    Submit
+  </div>
+
+</form>
+
+<div class="selected-data-overlay" *ngIf="submitOverlayOpened">
+  <div class="selected-data-wrap">
+    <h3>Selected data:</h3>
+
+    <div class="selected-data">
+      <span>Chosen cities: {{form.value.cities?.join(', ')}}</span>
+      <span>Chosen metrics: {{form.value.metricPreferences?.join(', ')}}</span>
+      <span>Chosen layout: {{form.value.layoutOption}}</span>
+      <span>Chosen chart: {{form.value.chartOption}}</span>
+    </div>
+
+    <button class="overlay-confirm" (click)="onSubmit()">Confirm</button>
+
+    <button class="close-overlay" (click)="closePopup()">Close</button>
+  </div>
 </div>
 
 

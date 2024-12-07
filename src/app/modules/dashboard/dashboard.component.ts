@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,26 +14,37 @@ export class DashboardComponent implements OnInit{
   isTableLoading = true;
   tableData: any = [];
   cities = ['New York', 'London', 'Paris', 'Tokyyoo', 'Berlin', 'Sydney', 'Dubai', 'Moscow', 'Singapore', 'Los Angeles']
+  metricInitial = this.formService.prepopulatedFormData?.metricPreference || ["name", "humidity", "temp_c", "text"];
+  // metricInitial = ["name", "humidity", "temp_c", "text"]
   chartData: any = [];
   chartLabels: any = [];
   widgetData: any = {};
 
-  constructor(private dashboardService: DashboardService) {
+
+  constructor(private dashboardService: DashboardService, private formService: FormService) {
 
   }
 
   ngOnInit(): void {
+    console.log(this.metricInitial)
+    let isFormPopulated = this.formService.prepopulatedFormData ? true : false;
+
     const payload = {
-      locations: this.cities.map(city => ({ q: city }))
+      locations: (isFormPopulated ? this.formService.prepopulatedFormData.cities : this.cities).map(city => ({ q: city }))
     };
+
+
 
     this.dashboardService.fetchCities(payload).subscribe({
       next: (data: any) => {
         this.isWidgetLoading = false;
-        this.isTableLoading = false
-        console.log(data)
-        this.tableData.push(data.bulk)
-        this.extractWidgetData(data)
+        this.isTableLoading = false;
+
+        let flattenedArray = data.bulk.map((element: any) => this.flattenObject(element));
+        this.tableData = flattenedArray
+
+        this.extractWidgetData(data);
+        console.log(this.tableData)
 
       },
       error: (error: any) => {
@@ -88,5 +100,22 @@ export class DashboardComponent implements OnInit{
     const totalHumidity = humidities.reduce((sum: number, humidity: number) => sum + humidity, 0);
     const avgHumidity = totalHumidity / humidities.length;
     this.widgetData.avgHumidity = +avgHumidity.toFixed(1);
+  }
+
+  flattenObject(obj: any) {
+
+    const flattened: any = {};
+
+    Object.keys(obj).forEach((key) => {
+      const value = obj[key];
+
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        Object.assign(flattened, this.flattenObject(value));
+      } else {
+        flattened[key] = value;
+      }
+    });
+
+    return flattened;
   }
 }

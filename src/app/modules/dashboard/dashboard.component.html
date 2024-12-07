@@ -3,25 +3,15 @@
   <table class="table">
     <tbody>
       <tr>
-        <th>Name</th>
-        <th>Humidity</th>
-        <th>Current Temperature</th>
-        <th>Weather Condition</th>
+        <th *ngFor="let metric of metricInitial">{{metric | uppercase}}</th>
       </tr>
-      <ng-container *ngFor="let item of tableData[0]">
-        <tr (click)="onCityClick($event, item.query.location.name)" *ngIf="item.query.location">
-          <td data-th="Name">
-            {{item.query.location.name}}
-          </td>
-          <td data-th="Humidity">
-            {{item.query.current.humidity}}
-          </td>
-          <td data-th="Current Temperature">
-            {{item.query.current.temp_c}}c
-          </td>
-          <td data-th="Weather Conditions">
-            {{item.query.current.condition.text}}
-          </td>
+      <ng-container *ngFor="let item of tableData">
+        <tr (click)="onCityClick($event, item.name)" *ngIf="item.name">
+          <ng-container *ngFor="let metric of metricInitial">
+            <td [attr.data-th]="metric">
+              {{item[metric]}}
+            </td>
+          </ng-container>
         </tr>
       </ng-container>
 

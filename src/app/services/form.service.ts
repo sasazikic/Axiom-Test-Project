@@ -3,11 +3,13 @@ import { Injectable } from '@angular/core';
 import { EnvironmentInjector } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { formModel } from '../models/form-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
+  prepopulatedFormData!: formModel;
 
   constructor(private http: HttpClient) {
 
