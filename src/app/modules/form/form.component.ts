@@ -20,8 +20,8 @@ export class FormComponent implements OnInit{
   submitOverlayOpened = false;
 
   form = new FormGroup({
-    cities: new FormArray([], Validators.required),
-    metricPreferences: new FormArray([], Validators.required),
+    cities: new FormArray<FormControl<string>>([], Validators.required),
+    metricPreferences: new FormArray<FormControl<string>>([], Validators.required),
     layoutOption: new FormControl('', Validators.required),
     chartOption: new FormControl('', Validators.required)
   })
@@ -43,14 +43,17 @@ export class FormComponent implements OnInit{
   ngOnInit(): void {
     this.formService.fetchCities().subscribe({
       next: (data: any) => {
-        console.log(data)
+
         this.listOfCities = data
       },
       error: (error) => {
         console.log(error)
       }
     })
-    console.log(this.form)
+
+    if(this.formService.prepopulatedFormData) {
+      this.customPatchingValue();
+    }
   }
 
 
@@ -87,7 +90,6 @@ export class FormComponent implements OnInit{
     cities.push(new FormControl(cityName));
     this.listOfSelectedCities.push(cityName);
 
-    console.log(this.form)
   }
 
   addCity(city: string) {
@@ -113,8 +115,6 @@ export class FormComponent implements OnInit{
         metricPreferences.removeAt(index);
       }
     }
-
-    console.log(this.form)
   }
 
   onRadioButtonClick(event: Event) {
@@ -141,8 +141,33 @@ export class FormComponent implements OnInit{
     this.router.navigate(['dashboard']);
   }
 
+
+  customPatchingValue() {
+
+    this.listOfSelectedCities = this.formService.prepopulatedFormData.cities
+    const citiesArray = this.form.get('cities') as FormArray;
+    citiesArray.clear();
+    this.formService.prepopulatedFormData.cities.forEach((city) => citiesArray.push(new FormControl(city)));
+
+    const metricPreferencesArray = this.form.get('metricPreferences') as FormArray;
+    metricPreferencesArray.clear();
+    this.formService.prepopulatedFormData.metricPreference.forEach((metric) => metricPreferencesArray.push(new FormControl(metric)));
+
+    this.form.patchValue({
+      layoutOption: this.formService.prepopulatedFormData.layoutOption,
+      chartOption: this.formService.prepopulatedFormData.chartOption
+    });
+  }
+
+  onSelectedCityClick(city: string){
+    this.listOfSelectedCities.splice(this.listOfSelectedCities.indexOf(city), 1);
+
+    const citiesArray = this.form.get('cities') as FormArray;
+    const index = citiesArray.value.indexOf(city);
+    if (index !== -1) {
+      citiesArray.removeAt(index);
+    }
+  }
+
 }
-// removeCity(index: number) {
-//   const cities = this.form.get('cities') as FormArray;
-//   cities.removeAt(index); // Remove the city at the specified index // this should be added later
-// }
+

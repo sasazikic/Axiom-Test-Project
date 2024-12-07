@@ -29,9 +29,14 @@
         </ul>
       </div>
 
-      <div class="selected-cities">
-        <span *ngFor="let city of listOfSelectedCities">{{city}}</span>
-      </div>
+
+    </div>
+
+    <div class="selected-cities">
+      <span *ngFor="let city of listOfSelectedCities" (click)="onSelectedCityClick(city)">
+        {{city}}
+        <img src="../../../assets/images/close-icon.svg" alt="">
+      </span>
     </div>
   </div>
 
@@ -42,39 +47,24 @@
   >
     <h3 for="" class="input-field-label">Choose metric preference (Minimum one)</h3>
 
+      <label for="name" class="input-field-label">Name</label>
+      <input type="checkbox" id="name"  (change)="onMetricCheckboxChange($event)" [checked]="form.get('metricPreferences')?.value?.includes('name')">
+
+      <label for="country" class="input-field-label">Country</label>
+      <input type="checkbox" id="country"  (change)="onMetricCheckboxChange($event)" [checked]="form.get('metricPreferences')?.value?.includes('country')">
+
 
       <label for="temperature" class="input-field-label">Temperature</label>
-      <input type="checkbox" id="temperature" (change)="onMetricCheckboxChange($event)">
+      <input type="checkbox" id="temp_c"  (change)="onMetricCheckboxChange($event)" [checked]="form.get('metricPreferences')?.value?.includes('temp_c')">
 
 
       <label for="humidity" class="input-field-label">Humidity</label>
-      <input type="checkbox" id="humidity" (change)="onMetricCheckboxChange($event)">
+      <input type="checkbox" id="humidity" (change)="onMetricCheckboxChange($event)" [checked]="form.get('metricPreferences')?.value?.includes('humidity')">
 
 
-      <label for="wind-speed" class="input-field-label">Wind speed</label>
-      <input type="checkbox" id="wind-speed" (change)="onMetricCheckboxChange($event)">
+      <label for="wind_kph" class="input-field-label">Wind speed</label>
+      <input type="checkbox" id="wind_kph" (change)="onMetricCheckboxChange($event)" [checked]="form.get('metricPreferences')?.value?.includes('wind_kph')">
   </div>
-
-  <!-- <div class="input-field-wrap layout-options" [class.disabled]="form.get('metriPreferences')?.invalid">
-    <h3 for="" class="input-field-label">Choose Display Options</h3>
-
-    <span>Layout options:</span>
-
-    <label for="layout-option-table">Table</label>
-    <input type="radio" name="layoutOption" id="layout-option-table" formControlName="layoutOption" (change)="onRadioButtonClick($event)">
-
-    <label for="layout-option-card">Card</label>
-    <input type="radio" name="layoutOption" id="layout-option-card" formControlName="layoutOption" (change)="onRadioButtonClick($event)">
-
-    <span>Chart options:</span>
-
-    <label for="chart-option-line">Line</label>
-    <input type="radio" name="chartOption" id="chart-option-line" formControlName="chartOption" (change)="onRadioButtonClick($event)">
-
-    <label for="chart-option-bar">Bar</label>
-    <input type="radio" name="chartOption" id="chart-option-bar" formControlName="chartOption" (change)="onRadioButtonClick($event)">
-
-  </div> -->
 
   <div class="input-field-wrap layout-options" [class.disabled]="form.get('metricPreferences')?.invalid">
     <h3 for="" class="input-field-label">Choose Display Options</h3>
@@ -122,7 +112,9 @@
 
     <button class="overlay-confirm" (click)="onSubmit()">Confirm</button>
 
-    <button class="close-overlay" (click)="closePopup()">Close</button>
+    <button class="close-overlay" (click)="closePopup()">
+      <img src="../../../assets/images/close-icon.svg" alt="">
+    </button>
   </div>
 </div>
 
