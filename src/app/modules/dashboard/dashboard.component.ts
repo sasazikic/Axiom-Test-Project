@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit{
   chartLabels: any = [];
   widgetData: any = {};
   chartType = 'line';
+  layoutType = 'card'
 
 
   constructor(private dashboardService: DashboardService, private formService: FormService) {
@@ -31,13 +32,12 @@ export class DashboardComponent implements OnInit{
     let isFormPopulated = this.formService.prepopulatedFormData ? true : false;
     if(isFormPopulated) {
       this.chartType = this.formService.prepopulatedFormData.chartOption
+      this.layoutType = this.formService.prepopulatedFormData.layoutOption
     }
 
     const payload = {
       locations: (isFormPopulated ? this.formService.prepopulatedFormData.cities : this.cities).map(city => ({ q: city }))
     };
-
-
 
     this.dashboardService.fetchCities(payload).subscribe({
       next: (data: any) => {

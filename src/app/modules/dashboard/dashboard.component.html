@@ -1,4 +1,4 @@
-<div class="table-wrapper section">
+<div class="table-wrapper section" *ngIf="layoutType === 'table'">
   <div class="loader-text table" *ngIf="isTableLoading"></div>
   <table class="table">
     <tbody>
@@ -14,9 +14,18 @@
           </ng-container>
         </tr>
       </ng-container>
-
     </tbody>
   </table>
+</div>
+
+<div class="card-wrapper section" *ngIf="layoutType === 'card'">
+  <div class="loader-text card" *ngIf="isTableLoading"></div>
+  <div class="card-item" (click)="onCityClick($event, item.name)" *ngFor="let item of tableData">
+    <div class="data-wrap" *ngFor="let metric of metricInitial">
+      <span class="card-metric">{{metric | uppercase}}: </span>
+      <span class="card-data">{{item[metric]}}</span>
+    </div>
+  </div>
 </div>
 
 

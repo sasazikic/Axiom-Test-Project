@@ -133,7 +133,7 @@
   font-size: 1rem;
   animation: l1 1s linear infinite alternate;
 
-  &.table {
+  &.table, &.card {
     color: white;
     font-size: 3rem;
     position: fixed;
@@ -149,6 +149,37 @@
 }
 .loader-text:before {
   content:"Loading widget..."
+}
+
+
+.card-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  .card-item {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    width: calc(100% - 20px);
+    margin: 0 auto;
+
+    @media screen and (min-width: 480px) {
+      width: calc(50% - 20px)
+    }
+
+    @media screen and (min-width: 768px) {
+      width: calc(25% - 20px)
+    }
+
+    .data-wrap {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid grey;
+    }
+  }
 }
 
 @keyframes l1 {to{opacity: 0}}
