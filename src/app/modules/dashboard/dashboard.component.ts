@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit{
   chartData: any = [];
   chartLabels: any = [];
   widgetData: any = {};
+  chartType = 'line';
 
 
   constructor(private dashboardService: DashboardService, private formService: FormService) {
@@ -28,6 +29,9 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
     console.log(this.metricInitial)
     let isFormPopulated = this.formService.prepopulatedFormData ? true : false;
+    if(isFormPopulated) {
+      this.chartType = this.formService.prepopulatedFormData.chartOption
+    }
 
     const payload = {
       locations: (isFormPopulated ? this.formService.prepopulatedFormData.cities : this.cities).map(city => ({ q: city }))

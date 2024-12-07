@@ -10,6 +10,7 @@ import { Chart } from 'angular-highcharts';
 export class ChartComponent implements OnInit, OnChanges{
   @Input() chartData: any = [];
   @Input() chartLabels: any = [];
+  @Input() chartType!: string;
   chart: any
 
 
@@ -27,7 +28,7 @@ export class ChartComponent implements OnInit, OnChanges{
   initializeChart(): void {
     this.chart = new Chart({
       chart: {
-        type: 'line'
+        type: this.chartType
       },
       title: {
         text: 'Linechart'
@@ -40,7 +41,7 @@ export class ChartComponent implements OnInit, OnChanges{
       },
       yAxis: {
         title: {
-          text: 'Temperature (°C)',
+          text: 'Max Temperature (°C)',
         },
       },
       series: [
